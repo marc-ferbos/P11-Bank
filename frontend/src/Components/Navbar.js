@@ -1,5 +1,5 @@
 import React from "react";
-import argentBankLogo from "../imgnew/argentBankLogo.png";
+import argentBankLogo from "./../../src/argentBankLogo.png";
 import "./Navbar.css";
 import { NavLink } from "react-router-dom";
 
