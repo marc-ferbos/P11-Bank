@@ -2,8 +2,32 @@ import React from "react";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import Account from "../Components/Account";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUsername } from "../Utils/authActions";
+import { useState } from "react";
 
 function Profile() {
+
+const username = useSelector((state) => state.username);
+const dispatch = useDispatch();
+
+const [newUsername, setNewUsername] = useState(username);
+const [isEditing, setIsEditing] = useState(false);
+
+const editClick = () => {
+    setIsEditing(true);
+};
+
+const cancelClick = () => {
+    setIsEditing(false);
+    setNewUsername(username);
+};
+
+const saveClick = () => {
+    dispatch(updateUsername(newUsername));
+    setIsEditing(false);
+};
+
     return (
         <>
             <Navbar />
@@ -12,9 +36,25 @@ function Profile() {
                     <h1>
                         Welcome back
                         <br />
-                        Tony Jarvis!
+                        {isEditing ? (
+                            <input
+                                type="text"
+                                value={newUsername}
+                                onChange={(event) => setNewUsername(event.target.value)}
+                            />
+                        ) : (
+                            username
+                        )}
+                        {username}
                     </h1>
-                    <button class="edit-button">Edit Name</button>
+                    {isEditing ? (
+                        <>
+                            <button className="save-button" onClick={saveClick}>Save</button>
+                            <button className="cancel-button" onClick={cancelClick}>Cancel</button>
+                        </>
+                    ) : (
+                    <button class="edit-button" onClick={editClick}>Edit Name</button>
+                    )}
                 </div>
                 <h2 class="sr-only">Accounts</h2>
                 <Account

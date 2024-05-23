@@ -14,8 +14,13 @@ const authReducer = (state = initialState, action) => {
             };
         case "LOGOUT":
             return initialState;
+        case "UPDATE_USERNAME":
+            return {
+                state,
+                username: action.payload,
+            };
         default:
-            return state;   
+            return state; 
             };
     }
 
