@@ -1,4 +1,4 @@
-import {login} from './authActions';
+import {login} from './authReducer';
 import store from './store';
 
 export const loginUser = async (username, password) => {
@@ -14,10 +14,10 @@ export const loginUser = async (username, password) => {
                 password: password,
             }),
         });
-        console.log(result);
         if (result.ok) {
             const data = await result.json();
-            store.dispatch(login({username: data.username, token: data.token}));
+            
+            store.dispatch(login({token: data.body.token}));
         } else {
             return Promise.reject("Une erreur est survenue");
         }
@@ -25,4 +25,28 @@ export const loginUser = async (username, password) => {
         console.error(error);
         return Promise.reject("Une erreur est survenue");
     }
-}
+};
+
+export const profileUser = async (token) => {
+    console.log(token);
+
+    try { 
+        const result = await fetch("http://localhost:3001/api/v1/user/profile", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (result.ok) {
+            const data = await result.json();
+            console.log(data);
+            store.dispatch(login({token: data.body.token}));
+        } else {
+            return Promise.reject("Une erreur est survenue");
+        }
+    } catch (error) {
+        console.error(error);
+        return Promise.reject("Une erreur est survenue");
+    }
+};

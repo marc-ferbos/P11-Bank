@@ -3,15 +3,19 @@ import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import Account from "../Components/Account";
 import { useSelector, useDispatch } from "react-redux";
-import { updateUsername } from "../Utils/authActions";
+import { updateUsername } from "../Utils/authReducer";
 import { useState } from "react";
+import { profileUser } from "../Utils/authAPI";
 
 function Profile() {
 
-const username = useSelector((state) => state.username);
+const token = useSelector((state) => state.auth.token);
+
+profileUser(token);
+
 const dispatch = useDispatch();
 
-const [newUsername, setNewUsername] = useState(username);
+const [newUsername, setNewUsername] = useState("blabla");
 const [isEditing, setIsEditing] = useState(false);
 
 const editClick = () => {
@@ -20,7 +24,7 @@ const editClick = () => {
 
 const cancelClick = () => {
     setIsEditing(false);
-    setNewUsername(username);
+    setNewUsername("username");
 };
 
 const saveClick = () => {
@@ -43,9 +47,9 @@ const saveClick = () => {
                                 onChange={(event) => setNewUsername(event.target.value)}
                             />
                         ) : (
-                            username
+                            "username"
                         )}
-                        {username}
+                        {"balbla"}
                     </h1>
                     {isEditing ? (
                         <>
