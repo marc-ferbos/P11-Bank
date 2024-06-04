@@ -38,7 +38,7 @@ const saveClick = () => {
             <main class="main bg-dark">
                 <div class="header">
                     <h1>
-                        Welcome back
+                        Welcome back, {newUsername} !
                         <br />
                         {isEditing ? (
                             <input
@@ -49,7 +49,7 @@ const saveClick = () => {
                         ) : (
                             "username"
                         )}
-                        {"balbla"}
+                        {"blabla"}
                     </h1>
                     {isEditing ? (
                         <>
