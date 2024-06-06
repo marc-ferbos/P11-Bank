@@ -1,4 +1,4 @@
-import {login} from './authReducer';
+import {login, stockUser} from './authReducer';
 import store from './store';
 
 export const loginUser = async (username, password) => {
@@ -41,7 +41,9 @@ export const profileUser = async (token) => {
         if (result.ok) {
             const data = await result.json();
             console.log(data);
-            store.dispatch(login({token: data.body.token}));
+            const finalresult = {username: data.body.username, email: data.body.email, firstName: data.body.firstName, lastName: data.body.lastName};
+            store.dispatch(stockUser(finalresult)); /* On stock les données du profil */
+            return result;
         } else {
             return Promise.reject("Une erreur est survenue");
         }

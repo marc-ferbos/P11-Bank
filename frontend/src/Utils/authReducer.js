@@ -6,6 +6,9 @@ const userSlice = createSlice({
         isAuthenticated: false,
         username: '',
         token: '',
+        email: '',
+        firstName: '',
+        lastName: '',
     },
     reducers: {
         login: (state, action) => { console.log(action.payload);
@@ -23,7 +26,9 @@ const userSlice = createSlice({
         stockUser: (state, action) => {
             state.isAuthenticated = true;
             state.username = action.payload.username;
-            state.token = action.payload.token;
+            state.email = action.payload.email;
+            state.firstName = action.payload.firstName;
+            state.lastName = action.payload.lastName;
         }
     },
 });

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import Account from "../Components/Account";
@@ -8,29 +8,32 @@ import { useState } from "react";
 import { profileUser } from "../Utils/authAPI";
 
 function Profile() {
+    const token = useSelector((state) => state.auth.token);
+    const [newUsername, setNewUsername] = useState("blabla");
+    useEffect(() => {
+    if (token) {
+        const {username, email, firstName, lastName} = profileUser(token);
+        setNewUsername(username);}
+    }, [token]);
+    
+    const dispatch = useDispatch();
 
-const token = useSelector((state) => state.auth.token);
+    
+    const [isEditing, setIsEditing] = useState(false);
 
-profileUser(token);
+    const editClick = () => {
+        setIsEditing(true);
+    };
 
-const dispatch = useDispatch();
+    const cancelClick = () => {
+        setIsEditing(false);
+        setNewUsername("username");
+    };
 
-const [newUsername, setNewUsername] = useState("blabla");
-const [isEditing, setIsEditing] = useState(false);
-
-const editClick = () => {
-    setIsEditing(true);
-};
-
-const cancelClick = () => {
-    setIsEditing(false);
-    setNewUsername("username");
-};
-
-const saveClick = () => {
-    dispatch(updateUsername(newUsername));
-    setIsEditing(false);
-};
+    const saveClick = () => {
+        dispatch(updateUsername(newUsername));
+        setIsEditing(false);
+    };
 
     return (
         <>
@@ -44,7 +47,9 @@ const saveClick = () => {
                             <input
                                 type="text"
                                 value={newUsername}
-                                onChange={(event) => setNewUsername(event.target.value)}
+                                onChange={(event) =>
+                                    setNewUsername(event.target.value)
+                                }
                             />
                         ) : (
                             "username"
@@ -53,11 +58,20 @@ const saveClick = () => {
                     </h1>
                     {isEditing ? (
                         <>
-                            <button className="save-button" onClick={saveClick}>Save</button>
-                            <button className="cancel-button" onClick={cancelClick}>Cancel</button>
+                            <button className="save-button" onClick={saveClick}>
+                                Save
+                            </button>
+                            <button
+                                className="cancel-button"
+                                onClick={cancelClick}
+                            >
+                                Cancel
+                            </button>
                         </>
                     ) : (
-                    <button class="edit-button" onClick={editClick}>Edit Name</button>
+                        <button class="edit-button" onClick={editClick}>
+                            Edit Name
+                        </button>
                     )}
                 </div>
                 <h2 class="sr-only">Accounts</h2>
