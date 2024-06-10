@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import Account from "../Components/Account";
@@ -9,12 +9,9 @@ import { profileUser } from "../Utils/authAPI";
 
 function Profile() {
     const token = useSelector((state) => state.auth.token);
-    const [newUsername, setNewUsername] = useState("blabla");
-    useEffect(() => {
-    if (token) {
-        const {username, email, firstName, lastName} = profileUser(token);
-        setNewUsername(username);}
-    }, [token]); /* Maj du username si le token change */
+    const username = useSelector((state) => state.auth.username);
+
+    const [newUsername, setNewUsername] = useState('');
     
     const dispatch = useDispatch();
 
@@ -41,7 +38,7 @@ function Profile() {
             <main class="main bg-dark">
                 <div class="header">
                     <h1>
-                        Welcome back, {newUsername} !
+                        Welcome back, {username} !
                         <br />
                         {isEditing ? (
                             <input
@@ -52,9 +49,8 @@ function Profile() {
                                 }
                             />
                         ) : (
-                            "username"
+                            <span>{newUsername}</span>
                         )}
-                        {"blabla"}
                     </h1>
                     {isEditing ? (
                         <>

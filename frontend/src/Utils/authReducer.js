@@ -23,7 +23,7 @@ const userSlice = createSlice({
         updateUsername: (state, action) => {
             state.username = action.payload;
         },
-        stockUser: (state, action) => {
+        stockUser: (state, action) => { /*console.log(action.payload);*/
             state.isAuthenticated = true;
             state.username = action.payload.username;
             state.email = action.payload.email;
