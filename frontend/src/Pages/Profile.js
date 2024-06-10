@@ -14,7 +14,7 @@ function Profile() {
     if (token) {
         const {username, email, firstName, lastName} = profileUser(token);
         setNewUsername(username);}
-    }, [token]);
+    }, [token]); /* Maj du username si le token change */
     
     const dispatch = useDispatch();
 
