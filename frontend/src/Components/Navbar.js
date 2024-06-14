@@ -18,23 +18,25 @@ function Navbar() {
                 <h1 className="sr-only">Argent Bank</h1>
             </NavLink>
 
+            {isAuthenticated ? (
             <div>
                 <NavLink to="/login" className="main-nav-item">
                     <i className="fa fa-user-circle"></i>
-                    Sign In
+                    Sign in
+                </NavLink>
+                <NavLink to="/" className="main-nav-item">
+                    <i className="fa fa-user-circle"></i>
+                    Sign out
                 </NavLink>
             </div>
-            
+            ) : (
             <div>
-                <a class="main-nav-item" href="./user.html">
-                    <i class="fa fa-user-circle"></i>
-                    Tony
-                </a>
-                <a class="main-nav-item" href="./index.html">
-                    <i class="fa fa-sign-out"></i>
-                    Sign Out
-                </a>
+                <NavLink to="/login" className="main-nav-item">
+                    <i className="fa fa-user-circle"></i>
+                    Sign in
+                </NavLink>
             </div>
+            )}
         </nav>
     );
 }
