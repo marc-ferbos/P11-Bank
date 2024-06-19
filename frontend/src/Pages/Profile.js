@@ -5,17 +5,15 @@ import Account from "../Components/Account";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUsername } from "../Utils/authReducer";
 import { useState } from "react";
-import { profileUser } from "../Utils/authAPI";
+import { profileUser, updateProfile } from "../Utils/authAPI";
+import store from "../Utils/store";
 
 function Profile() {
     const token = useSelector((state) => state.auth.token);
     const username = useSelector((state) => state.auth.username);
 
-    const [newUsername, setNewUsername] = useState('');
-    
-    const dispatch = useDispatch();
+    const [newUsername, setNewUsername] = useState("");
 
-    
     const [isEditing, setIsEditing] = useState(false);
 
     const editClick = () => {
@@ -24,12 +22,17 @@ function Profile() {
 
     const cancelClick = () => {
         setIsEditing(false);
-        setNewUsername("username");
+        setNewUsername(username);
     };
 
-    const saveClick = () => {
-        dispatch(updateUsername(newUsername));
-        setIsEditing(false);
+    const saveClick = async () => {
+        try {
+            await updateProfile(token, newUsername);
+            store.dispatch(updateUsername(newUsername)); /* A Modifier pour mettre à jour le nom d'utilisateur dans le store */
+            setIsEditing(false);
+        } catch (error) {
+            console.error("failed to update newusername", error);
+        }
     };
 
     return (
@@ -40,7 +43,7 @@ function Profile() {
                     <h1>
                         Welcome back, {username} !
                         <br />
-                        {isEditing ? (
+                        {isEditing && (
                             <input
                                 type="text"
                                 value={newUsername}
@@ -48,8 +51,6 @@ function Profile() {
                                     setNewUsername(event.target.value)
                                 }
                             />
-                        ) : (
-                            <span>{newUsername}</span>
                         )}
                     </h1>
                     {isEditing ? (

@@ -83,6 +83,7 @@ export const updateProfile = async (token, newUsername) => {
         );
         if (result.ok) {
             const data = await result.json();
+            console.log(data); /* Les données sont bien récupérées */
             store.dispatch(stockUser(data.body));
             return result;
         } else {

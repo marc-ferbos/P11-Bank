@@ -3,9 +3,12 @@ import argentBankLogo from "./../../src/argentBankLogo.png";
 import "./Navbar.css";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { logout } from "../Utils/authReducer";
+import store from "../Utils/store";
 
 function Navbar() {
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const username = useSelector((state) => state.auth.username);
 
     return (
         <nav className="main-nav">
@@ -20,11 +23,11 @@ function Navbar() {
 
             {isAuthenticated ? (
             <div>
-                <NavLink to="/login" className="main-nav-item">
+                <NavLink to="/profile" className="main-nav-item">
                     <i className="fa fa-user-circle"></i>
-                    Sign in
+                    {username}
                 </NavLink>
-                <NavLink to="/" className="main-nav-item">
+                <NavLink onClick={() => {store.dispatch(logout())}} to="/" className="main-nav-item">
                     <i className="fa fa-user-circle"></i>
                     Sign out
                 </NavLink>
