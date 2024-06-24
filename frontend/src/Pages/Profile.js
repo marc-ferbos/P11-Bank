@@ -5,17 +5,24 @@ import Account from "../Components/Account";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUsername } from "../Utils/authReducer";
 import { useState } from "react";
-import { profileUser, updateProfile } from "../Utils/authAPI";
+import { updateProfile } from "../Utils/authAPI";
 import store from "../Utils/store";
+import { Navigate } from "react-router-dom";
 
 function Profile() {
     const token = useSelector((state) => state.auth.token);
     const username = useSelector((state) => state.auth.username);
-
-    const [newUsername, setNewUsername] = useState("");
+    const firstName = useSelector((state) => state.auth.firstName);
+    const lastName = useSelector((state) => state.auth.lastName);
+    const [newUsername, setNewUsername] = useState(username);
 
     const [isEditing, setIsEditing] = useState(false);
 
+    if (! token ) {
+        return <Navigate to="/login" />;
+    }
+
+    
     const editClick = () => {
         setIsEditing(true);
     };
@@ -42,8 +49,9 @@ function Profile() {
                 <div class="header">
                     <h1>
                         Welcome back, {username} !
-                        <br />
-                        {isEditing && (
+                    </h1>
+                    {isEditing ? (
+                        <>
                             <input
                                 type="text"
                                 value={newUsername}
@@ -51,10 +59,17 @@ function Profile() {
                                     setNewUsername(event.target.value)
                                 }
                             />
-                        )}
-                    </h1>
-                    {isEditing ? (
-                        <>
+                            <input 
+                                type="text"
+                                value={firstName}
+                                disabled
+                            />
+                            <input 
+                                type="text"
+                                value={lastName}
+                                disabled
+                            />
+                            
                             <button className="save-button" onClick={saveClick}>
                                 Save
                             </button>

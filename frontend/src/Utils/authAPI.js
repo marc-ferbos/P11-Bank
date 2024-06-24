@@ -71,13 +71,13 @@ export const updateProfile = async (token, newUsername) => {
         const result = await fetch(
             "http://localhost:3001/api/v1/user/profile",
             {
-                method: "POST",
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify({
-                    username: newUsername,
+                    userName: newUsername,
                 }),
             }
         );
