@@ -101,6 +101,83 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
+
+
+  /accounts/{accountId}/transactions:
+    get:
+      tags:
+        - transaction
+      summary: Get transactions by Account ID
+      description: Return all transactions of a specific account
+      operationId: getTransactionsByAccountId
+      parameters:
+        - name: accountId
+          in: path
+          description: ID of the account to get all transactions
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Transaction'
+        '400':
+          description: Invalid Account ID
+        '404':
+          description: Account not found
+
+  /transactions/{transactionId}:
+    get:
+      tags:
+        - transaction
+      summary: Get Transaction by ID
+      description: Get a transaction by ID
+      operationId: getTransactionById
+      parameters:
+        - name: transactionId
+          in: path
+          description: ID of the transaction
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/Transaction'
+        '400':
+          description: Invalid Transaction ID
+        '404':
+          description: Transaction not found
+    put:
+      tags:
+        - transaction
+      summary: Update Transaction by ID
+      description: Updates details of a transaction
+      operationId: updateTransactionById
+      parameters:
+        - name: transactionId
+          in: path
+          description: ID of the transaction to update
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Transaction object needed to be updated
+          required: true
+          schema:
+            $ref: '#/definitions/Transaction'
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/Transaction'
+        '400':
+          description: Invalid Transaction ID
+        '404':
+          description: Transaction not found
+
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -108,6 +185,7 @@ securityDefinitions:
     in: header
 definitions:
   User:
+    type: object
     properties:
       email:
         type: string
@@ -125,6 +203,7 @@ definitions:
         type: string
         description: user public name
   Login:
+    type: object
     properties:
       email:
         type: string
@@ -156,3 +235,29 @@ definitions:
     properties:
       userName:
         type: string
+  Transaction:
+    type: object
+    properties:
+      id:
+        type: string
+        example: "num transaction"
+      accountId:
+        type: string
+        example: "123456789"
+      amount:
+        type: number
+        format: double
+        example: 150.00
+      currency:
+        type: string
+        example: "USD"
+      date:
+        type: string
+        format: date-time
+        example: "2024-06-20T13:45:30"
+      description:
+        type: string
+        example: "Payment for something"
+      status:
+        type: string
+        example: "completed"
