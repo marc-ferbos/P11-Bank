@@ -151,6 +151,8 @@ paths:
         '404':
           description: Transaction not found
     put:
+      security:
+        - Bearer: []
       tags:
         - transaction
       summary: Update Transaction by ID
@@ -238,19 +240,6 @@ definitions:
   Transaction:
     type: object
     properties:
-      id:
-        type: string
-        example: "num transaction"
-      accountId:
-        type: string
-        example: "123456789"
-      amount:
-        type: number
-        format: double
-        example: 150.00
-      currency:
-        type: string
-        example: "USD"
       date:
         type: string
         format: date-time
@@ -258,6 +247,20 @@ definitions:
       description:
         type: string
         example: "Payment for something"
-      status:
+      amount:
+        type: number
+        format: double
+        example: $8.00
+      balance:
+        type: number
+        format: double
+        example: $298.00
+      Transaction Type:
         type: string
-        example: "completed"
+        example: "electronic"
+      Category:
+        type: string
+        example: "Food"
+      Note:
+        type: string
+        example: "lorem ipsum"
