@@ -169,7 +169,7 @@ paths:
           description: Transaction object needed to be updated
           required: true
           schema:
-            $ref: '#/definitions/Transaction'
+            $ref: '#/definitions/TransactionEdit'
       responses:
         '200':
           description: Successful operation
@@ -255,12 +255,22 @@ definitions:
         type: number
         format: double
         example: $298.00
-      Transaction Type:
+      transactionType:
         type: string
         example: "electronic"
-      Category:
+      category:
         type: string
         example: "Food"
-      Note:
+      note:
+        type: string
+        example: "lorem ipsum"
+
+  TransactionEdit:
+    type: object
+    properties:
+      category:
+        type: string
+        example: "Food"
+      note:
         type: string
         example: "lorem ipsum"
