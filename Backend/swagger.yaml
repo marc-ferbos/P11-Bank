@@ -105,15 +105,17 @@ paths:
 
   /accounts/{accountId}/transactions:
     get:
+      security:
+        - Bearer: []
       tags:
         - transaction
-      summary: Get transactions by Account ID
-      description: Return all transactions of a specific account
-      operationId: getTransactionsByAccountId
+      summary: Get transactions of the current month by Account ID
+      description: Return all transactions of a the current month for specific account
+      operationId: getCurrentMonthTransactionsByAccountId
       parameters:
         - name: accountId
           in: path
-          description: ID of the account to get all transactions
+          description: ID of the account to get all transactions of the current month
           required: true
           type: string
       responses:
@@ -130,6 +132,8 @@ paths:
 
   /transactions/{transactionId}:
     get:
+      security:
+        - Bearer: []
       tags:
         - transaction
       summary: Get Transaction by ID

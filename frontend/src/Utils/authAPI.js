@@ -31,7 +31,6 @@ export const loginUser = async (username, password) => {
 
 export const profileUser = async (token) => {
     /*console.log(token);*/
-
     try {
         const result = await fetch(
             "http://localhost:3001/api/v1/user/profile",
